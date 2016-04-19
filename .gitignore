@@ -2,4 +2,4 @@ mongoServer.txt
 dist
 node_modules
 public/bower_components
-public/js/compiled
+public/js/homeTemp.js
