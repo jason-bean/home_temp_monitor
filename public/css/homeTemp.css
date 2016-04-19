@@ -1,0 +1,162 @@
+﻿html {
+    padding: 0px;
+    margin: 0px;
+}
+
+body {
+    background-color: #f9f9f9;
+    font-size: 16px !important;
+    font-family: sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+#content {
+    padding: 10px;
+}
+
+#pageTitle {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.currentTemps {
+    font-size: 16px;
+}
+
+#lstDiv {
+    margin:0 auto;
+}
+
+#chartArea {
+    margin-top:15px;
+}
+
+#chart_div {
+    box-shadow: 1px 1px 5px 1px rgb(192, 192, 192);
+}
+
+#statsArea {
+    margin:0 auto;
+}
+
+table.stats {
+    margin-top: 10px;
+}
+
+caption {
+    text-align: center !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+th {
+    text-align: center !important;
+}
+
+td {
+    text-align: center;
+}
+
+#tblUpdated {
+    width: auto;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+} 
+
+#lblUpdated {
+    text-align: left;
+    width: 80px;
+}
+
+@media screen and (max-width: 767px) {
+    #lstDiv {
+        width: 90%;
+    }
+
+    #chartTitle {
+        display: none;
+    }
+
+    #chart_div {
+        height: 337px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    #lstDiv {
+        width: 320px;
+    }
+
+    #chartTitle {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) and (orientation: portrait) {
+    #chart_div {
+        height: 615px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) and (orientation: landscape) {
+    #chart_div {
+        height: 360px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    #chartTitle {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) and (orientation: portrait) {
+    #lstDiv {
+        width: 90%;
+    }
+
+    #chart_div {
+        height: 337px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) and (orientation: landscape) {
+    #lstDiv {
+        width: 320px;
+    }
+
+    #chart_div {
+        height: 360px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #pageTitle {
+        font-size: 32px;
+    }
+
+    .currentTemps {
+        font-size: 20px;
+    }
+
+    #chartArea {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #chartTitle {
+        font-size:24px;
+        font-weight:bold;
+    }
+
+    #chart_div {
+        margin-top: 10px;
+        height: 600px;
+    }
+
+    caption {
+        font-size: 24px;
+    }
+}

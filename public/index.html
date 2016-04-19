@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Bean House Temperature Log</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Bean House Temperature Log" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="apple-touch-icon" href="mobile/touch-icon-iphone.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="mobile/touch-icon-ipad.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="mobile/touch-icon-iphone-retina.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="mobile/touch-icon-ipad-retina.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="mobile/touch-icon-iphone-retina-3x.png" />
+    <!-- build:css css/main.min.css -->
+    <link rel="stylesheet" href="css/homeTemp.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbuild-->
+</head>
+<body>
+    <div id="content" class="container"></div>
+    <table id="tblUpdated" class="row">
+        <tr>
+            <td id="lblUpdated">Updated:</td>
+            <td id="updatedTime"></td>
+        </tr>
+    </table>
+    <!-- build:js js/main.min.js -->
+    <script type="text/javascript" src="js/date.format.js"></script>
+    <script type="text/javascript" src="bower_components/react/react.js"></script>
+    <script type="text/javascript" src="bower_components/react/react-dom.js"></script>
+    <script type="text/javascript" src="bower_components/fetch/fetch.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/canvasjs.min.js"></script>
+    <script type="text/javascript" src="js/compiled/homeTemp.js"></script>
+    <!-- endbuild -->
+</body>
+</html>
