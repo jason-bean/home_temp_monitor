@@ -1,14 +1,17 @@
 {
   "name": "home_temp_monitor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Home Temperature Monitor Page",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jason-bean/home_temp_monitor.git"
+  },
   "main": "index.js",
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "mongodb": "^2.1.16",
     "request": "^2.69.0",
-    "seriate": "^0.5.5",
     "path": "^0.12.7"
   },
   "devDependencies": {
@@ -16,6 +19,7 @@
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.6",
     "gulp-if": "^2.0.0",
+    "gulp-nodemon": "^2.0.6",
     "gulp-react": "^3.1.0",
     "gulp-uglify": "^1.5.3",
     "gulp-useref": "^3.0.8"
@@ -23,6 +27,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Jason Bean",
   "license": "ISC"
 }

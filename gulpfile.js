@@ -5,6 +5,7 @@ var cleancss = require('gulp-clean-css');
 var gulpIf = require('gulp-if');
 var react = require('gulp-react');
 var del = require('del');
+var nodemon = require('gulp-nodemon');
 
 gulp.task('useref', ['transpile'], function() {
     return gulp.src('public/*.html')
@@ -15,9 +16,9 @@ gulp.task('useref', ['transpile'], function() {
 });
 
 gulp.task('transpile', function () {
-    return gulp.src('public/js/homeTemp.js')
+    return gulp.src('public/src/homeTemp.jsx')
       .pipe(react())
-      .pipe(gulp.dest('public/js/compiled'))
+      .pipe(gulp.dest('public/js'))
 });
 
 gulp.task('images', function() {
@@ -41,3 +42,12 @@ gulp.task('clean:dist', function() {
 });
 
 gulp.task('build', ['useref', 'images', 'mobile', 'app']);
+
+gulp.task('default', function () {
+    nodemon({
+        script: 'index.js',
+        ext: 'js jsx',
+        ignore: ['gulpfile.js', 'public/js/'],
+        tasks: ['transpile']
+    });
+});

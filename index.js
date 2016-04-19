@@ -2,20 +2,19 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
-//var sql = require('seriate');
 var mongoClient = require('mongodb').MongoClient;
 var request = require('request');
 
-var mongoUrl = 'mongodb://beanweb:27017/homeTempLog';
+var mongoUrl;
 
-// var config = {  
-//     'host': 'beanweb.bean.local',
-//     'user': 'web_user',
-//     'password': 'FF40e64E',
-//     'database': 'templog'
-// };
-
-// sql.setDefaultConfig(config);
+fs.readFile('mongoServer.txt', 'utf8', function (err, data) {
+    if (err) {
+        return console.error(err);
+    }
+    
+    mongoUrl = 'mongodb://' + data;
+    console.log('Mongo URL: \'' + mongoUrl + '\'');
+});
 
 var port =  '8080';
  
@@ -54,30 +53,6 @@ app.get(TEMPS_PATH + '/DateRange', function(req, res, next) {
     }).catch(function(err) {
         return next(err);
     });
-    
-    // sql.execute({
-    //     // query: 'SELECT TempId AS id, Temperature AS y, DATEADD(SECOND, DATEDIFF(SECOND, GETDATE(), GETUTCDATE()), Recorded) AS x ' +
-    //     query: "SELECT TempId AS id, Temperature AS y, CAST(DATEDIFF(SECOND,{d '1970-01-01'}, DATEADD(SECOND, DATEDIFF(SECOND, GETDATE(), GETUTCDATE()), Recorded)) AS BIGINT) * 1000 AS x " +
-    //     'FROM templog ' + 
-    //     'WHERE Recorded >= DATEADD(MINUTE, DATEPART(tzoffset, sysdatetimeoffset()), @startDate) ' +
-    //     'AND Recorded <= DATEADD(MINUTE, DATEPART(tzoffset, sysdatetimeoffset()), @endDate) ' +
-    //     'ORDER BY Recorded ASC',
-    //     params: {
-    //         startDate: {
-    //             type: sql.DATETIME,
-    //             val: startDate
-    //         },
-    //         endDate: {
-    //             type: sql.DATETIME,
-    //             val: endDate
-    //         }
-    //     }
-    // }).then(function (results) {
-    //     res.status(200).send(results);
-    //     return next();
-    // }, function (err) {
-    //     return next(err);
-    // });
 });
 
 app.get(TEMPS_PATH + '/LastHour', function(req, res, next) {

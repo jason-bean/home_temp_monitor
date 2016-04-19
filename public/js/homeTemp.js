@@ -1,6 +1,6 @@
 var dtFormat = 'm/d/yyyy h:MM TT';
 
-var HomeTempUI = React.createClass({
+var HomeTempUI = React.createClass({displayName: "HomeTempUI",
     loadCurrentTempsFromServer: function() {
         fetch('/Temps/Current').then(function(response) {
             return response.json();
@@ -75,54 +75,54 @@ var HomeTempUI = React.createClass({
     },
     render: function() {
         return (
-            <div className="homeTempUI">
-                <div style={{textAlign: 'center'}} className="row">
-                    <p id="pageTitle" className="col-sm-12 col-md-12">Bean House Temperature Log</p>
-                    <CurrentTemps currentTemps={this.state.currentTemps} />
-                    <TempRangeForm onRangeChange={this.handleRangeChange} rangeValue={this.state.rangeValue} />
-                </div>
-                <TempChart tempData={this.state.tempData} rangeValue={this.state.rangeValue} />
-                <div id="statsArea" className="row">
-                    <TempMinMaxAvg minTemp={this.state.minTemp} maxTemp={this.state.maxTemp} avgTemp={this.state.avgTemp} />
-                    <TempLastHour tempLastHour={this.state.tempLastHour} />
-                </div>
-            </div>
+            React.createElement("div", {className: "homeTempUI"}, 
+                React.createElement("div", {style: {textAlign: 'center'}, className: "row"}, 
+                    React.createElement("p", {id: "pageTitle", className: "col-sm-12 col-md-12"}, "Bean House Temperature Log"), 
+                    React.createElement(CurrentTemps, {currentTemps: this.state.currentTemps}), 
+                    React.createElement(TempRangeForm, {onRangeChange: this.handleRangeChange, rangeValue: this.state.rangeValue})
+                ), 
+                React.createElement(TempChart, {tempData: this.state.tempData, rangeValue: this.state.rangeValue}), 
+                React.createElement("div", {id: "statsArea", className: "row"}, 
+                    React.createElement(TempMinMaxAvg, {minTemp: this.state.minTemp, maxTemp: this.state.maxTemp, avgTemp: this.state.avgTemp}), 
+                    React.createElement(TempLastHour, {tempLastHour: this.state.tempLastHour})
+                )
+            )
         );
     } 
 });
 
-var CurrentTemps = React.createClass({
+var CurrentTemps = React.createClass({displayName: "CurrentTemps",
     render: function() {
         var currentTemps = this.props.currentTemps;
         return (
-            <p className="currentTemps col-sm-12 col-md-12">
-                <span className="hidden-xs"><strong>Current Temperature:</strong></span>
-                <span className="hidden-sm hidden-md hidden-lg"><strong>Current Temp:</strong></span>
-                &nbsp;{currentTemps.inside.toFixed(2)} °F
-            </p>
+            React.createElement("p", {className: "currentTemps col-sm-12 col-md-12"}, 
+                React.createElement("span", {className: "hidden-xs"}, React.createElement("strong", null, "Current Temperature:")), 
+                React.createElement("span", {className: "hidden-sm hidden-md hidden-lg"}, React.createElement("strong", null, "Current Temp:")), 
+                " ", currentTemps.inside.toFixed(2), " °F"
+            )
         );
     }
 });
 
-var TempRangeForm = React.createClass({
+var TempRangeForm = React.createClass({displayName: "TempRangeForm",
     render: function() {
         return (
-            <form>
-                <select id="lstDataRange" className="lstDataRange" onChange={this.props.onRangeChange} data-icon="false" value={this.props.rangeValue}>
-                    <option value="24">Last 24 Hours</option>
-                    <option value="48">Last 48 Hours</option>
-                    <option value="168">Last Week</option>
-                    <option value="720">Last Month</option>
-                    <option value="2160">Last 3 Months</option>
-                    <option value="4320">Last 6 Months</option>
-                    <option value="8760">Last Year</option>
-                </select>
-            </form>
+            React.createElement("form", null, 
+                React.createElement("select", {id: "lstDataRange", className: "lstDataRange", onChange: this.props.onRangeChange, "data-icon": "false", value: this.props.rangeValue}, 
+                    React.createElement("option", {value: "24"}, "Last 24 Hours"), 
+                    React.createElement("option", {value: "48"}, "Last 48 Hours"), 
+                    React.createElement("option", {value: "168"}, "Last Week"), 
+                    React.createElement("option", {value: "720"}, "Last Month"), 
+                    React.createElement("option", {value: "2160"}, "Last 3 Months"), 
+                    React.createElement("option", {value: "4320"}, "Last 6 Months"), 
+                    React.createElement("option", {value: "8760"}, "Last Year")
+                )
+            )
         );
     }
 });
 
-var TempChart = React.createClass({
+var TempChart = React.createClass({displayName: "TempChart",
     renderChart: function() {
         var lineThickness = 1.0;
         var selectedValue = parseInt(this.props.rangeValue);
@@ -174,92 +174,92 @@ var TempChart = React.createClass({
     },
     render: function() {
         return (
-            <div className="row">
-                <div id="chartArea" className="col-md-12 col-sm-12 col-xs-12">
-                    <span id="chartTitle">Temperature Chart</span>
-                    <div id="chart_div"></div>
-                </div>
-            </div>
+            React.createElement("div", {className: "row"}, 
+                React.createElement("div", {id: "chartArea", className: "col-md-12 col-sm-12 col-xs-12"}, 
+                    React.createElement("span", {id: "chartTitle"}, "Temperature Chart"), 
+                    React.createElement("div", {id: "chart_div"})
+                )
+            )
         );
     }
 });
 
-var TempMinMaxAvg = React.createClass({
+var TempMinMaxAvg = React.createClass({displayName: "TempMinMaxAvg",
     render: function() {
         return (
-            <div id="minMaxAvg" className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <table id="minTempTable" className="stats col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <caption>
-                        <span className="hidden-xs">Minimum Temperature</span>
-                        <span className="hidden-lg hidden-md hidden-sm">Min Temp</span>
-                    </caption>
-                    <tbody>
-                        <tr>
-                            <td>{dateFormat(new Date(+this.props.minTemp['x']), dtFormat)}</td>
-                            <td>{this.props.minTemp['y'].toFixed(2)} °F</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table id="maxTempTable" className="stats col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <caption>
-                        <span className="hidden-xs">Maximum Temperature</span>
-                        <span className="hidden-lg hidden-md hidden-sm">Max Temp</span>
-                    </caption>
-                    <tbody>
-                        <tr>
-                            <td>{dateFormat(new Date(+this.props.maxTemp['x']), dtFormat)}</td>
-                            <td>{this.props.maxTemp['y'].toFixed(2)} °F</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table id="avgTempTable" className="stats col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <caption>
-                        <span className="hidden-xs">Average Temperature</span>
-                        <span className="hidden-lg hidden-md hidden-sm">Avg Temp</span>
-                    </caption>
-                    <tbody>
-                        <tr>
-                            <td>{this.props.avgTemp.toFixed(2)} °F</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            React.createElement("div", {id: "minMaxAvg", className: "col-lg-6 col-md-6 col-sm-6 col-xs-12"}, 
+                React.createElement("table", {id: "minTempTable", className: "stats col-lg-12 col-md-12 col-sm-12 col-xs-12"}, 
+                    React.createElement("caption", null, 
+                        React.createElement("span", {className: "hidden-xs"}, "Minimum Temperature"), 
+                        React.createElement("span", {className: "hidden-lg hidden-md hidden-sm"}, "Min Temp")
+                    ), 
+                    React.createElement("tbody", null, 
+                        React.createElement("tr", null, 
+                            React.createElement("td", null, dateFormat(new Date(+this.props.minTemp['x']), dtFormat)), 
+                            React.createElement("td", null, this.props.minTemp['y'].toFixed(2), " °F")
+                        )
+                    )
+                ), 
+                React.createElement("table", {id: "maxTempTable", className: "stats col-lg-12 col-md-12 col-sm-12 col-xs-12"}, 
+                    React.createElement("caption", null, 
+                        React.createElement("span", {className: "hidden-xs"}, "Maximum Temperature"), 
+                        React.createElement("span", {className: "hidden-lg hidden-md hidden-sm"}, "Max Temp")
+                    ), 
+                    React.createElement("tbody", null, 
+                        React.createElement("tr", null, 
+                            React.createElement("td", null, dateFormat(new Date(+this.props.maxTemp['x']), dtFormat)), 
+                            React.createElement("td", null, this.props.maxTemp['y'].toFixed(2), " °F")
+                        )
+                    )
+                ), 
+                React.createElement("table", {id: "avgTempTable", className: "stats col-lg-12 col-md-12 col-sm-12 col-xs-12"}, 
+                    React.createElement("caption", null, 
+                        React.createElement("span", {className: "hidden-xs"}, "Average Temperature"), 
+                        React.createElement("span", {className: "hidden-lg hidden-md hidden-sm"}, "Avg Temp")
+                    ), 
+                    React.createElement("tbody", null, 
+                        React.createElement("tr", null, 
+                            React.createElement("td", null, this.props.avgTemp.toFixed(2), " °F")
+                        )
+                    )
+                )
+            )
         );
     }
 });
 
-var TempLastHour = React.createClass({
+var TempLastHour = React.createClass({displayName: "TempLastHour",
     render: function() {
         console.log('tempLastHour length: ' + this.props.tempLastHour.length);
         var tempNodes = this.props.tempLastHour.map(function(temp) {
             return (
-                <tr key={temp._id}>
-                    <td>{dateFormat(new Date(+temp['x']), dtFormat)}</td>
-                    <td>{temp['y'].toFixed(2)} °F</td>
-                </tr>
+                React.createElement("tr", {key: temp._id}, 
+                    React.createElement("td", null, dateFormat(new Date(+temp['x']), dtFormat)), 
+                    React.createElement("td", null, temp['y'].toFixed(2), " °F")
+                )
             );
         });
         
         return (
-            <div id="lastHour" className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <table id="tblLastTemps" className="stats col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <caption>
-                        <span className="hidden-xs">Readings For Last Hour</span>
-                        <span className="hidden-lg hidden-md hidden-sm">Last Hour</span>
-                    </caption>
-                    <thead>
-                        <tr><th>Date/Time</th><th>Temperature</th></tr>
-                    </thead>
-                    <tbody>
-                        {tempNodes}
-                    </tbody>
-                </table>
-            </div>
+            React.createElement("div", {id: "lastHour", className: "col-lg-6 col-md-6 col-sm-6 col-xs-12"}, 
+                React.createElement("table", {id: "tblLastTemps", className: "stats col-lg-12 col-md-12 col-sm-12 col-xs-12"}, 
+                    React.createElement("caption", null, 
+                        React.createElement("span", {className: "hidden-xs"}, "Readings For Last Hour"), 
+                        React.createElement("span", {className: "hidden-lg hidden-md hidden-sm"}, "Last Hour")
+                    ), 
+                    React.createElement("thead", null, 
+                        React.createElement("tr", null, React.createElement("th", null, "Date/Time"), React.createElement("th", null, "Temperature"))
+                    ), 
+                    React.createElement("tbody", null, 
+                        tempNodes
+                    )
+                )
+            )
         );
     }
 });
 
 ReactDOM.render(
-    <HomeTempUI currentPollInterval={60000} tempDataPollInterval={900000} initialRange={24} />,
+    React.createElement(HomeTempUI, {currentPollInterval: 60000, tempDataPollInterval: 900000, initialRange: 24}),
     document.getElementById('content')
 );
