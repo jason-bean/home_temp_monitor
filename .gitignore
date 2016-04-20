@@ -1,4 +1,4 @@
-mongoServer.txt
+mongoServer.json
 dist
 node_modules
 public/bower_components

@@ -35,6 +35,7 @@ gulp.task('app', function () {
     return gulp.src('*')
       .pipe(gulpIf('index.js', gulp.dest('dist')))
       .pipe(gulpIf('package.json', gulp.dest('dist')))
+      .pipe(gulpIf('mongoServer.json', gulp.dest('dist')))
 });
 
 gulp.task('clean:dist', function() {
@@ -43,7 +44,7 @@ gulp.task('clean:dist', function() {
 
 gulp.task('build', ['useref', 'images', 'mobile', 'app']);
 
-gulp.task('default', function () {
+gulp.task('default', ['transpile'], function () {
     nodemon({
         script: 'index.js',
         ext: 'js jsx',

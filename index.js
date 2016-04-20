@@ -7,12 +7,13 @@ var request = require('request');
 
 var mongoUrl;
 
-fs.readFile('mongoServer.txt', 'utf8', function (err, data) {
+fs.readFile('mongoServer.json', 'utf8', function (err, data) {
     if (err) {
         return console.error(err);
     }
     
-    mongoUrl = 'mongodb://' + data;
+    var mongoServer = JSON.parse(data);
+    mongoUrl = 'mongodb://' + mongoServer.host + ':' + mongoServer.port + '/' + mongoServer.db;
     console.log('Mongo URL: \'' + mongoUrl + '\'');
 });
 
@@ -33,59 +34,24 @@ var TEMPS_PATH = '/Temps'
 app.get(TEMPS_PATH + '/DateRange', function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     
-    var startDate = new Date(req.query.startDate);
-    console.log(startDate);
-    var endDate = new Date(req.query.endDate);
-    console.log(endDate);
+    var startDate = Number(req.query.startDate);
+    console.log(new Date(startDate));
+    var endDate = Number(req.query.endDate);
+    console.log(new Date(endDate));
     
-    mongoClient.connect(mongoUrl).then(function(db) {
-        return db.collection('temps');
-    }).then(function(collection) {
-        return collection.find({ x: { $gte: startDate, $lte: endDate } }).sort({ x: 1 });
-    }).then(function(cursor) {
-        return cursor.toArray();
-    }).then(function(documents) {
-        documents.forEach(function(item, index) {
-                    item['x'] = item['x'].getTime();
-                });
-                res.status(200).send(documents);
-                return next();
-    }).catch(function(err) {
-        return next(err);
-    });
-});
-
-app.get(TEMPS_PATH + '/LastHour', function(req, res, next) {
-    res.setHeader('Cache-Control', 'no-cache');
-    
-    var endDate = new Date();
-    var startDate = new Date(endDate);
-    startDate.setTime(startDate.getTime() - 3600000);
-    console.log(startDate);
-    console.log(endDate);
-    
-    sql.execute({
-        query: 'SELECT Temperature, DATEADD(second, DATEDIFF(second, GETDATE(), GETUTCDATE()), Recorded) AS Recorded ' +
-        'FROM templog ' +
-        'WHERE Recorded >= DATEADD(MINUTE, DATEPART(tzoffset, sysdatetimeoffset()), @startDate) ' +
-        'AND Recorded <= DATEADD(MINUTE, DATEPART(tzoffset, sysdatetimeoffset()), @endDate)' +
-        'ORDER BY Recorded ASC',
-        params: {
-            startDate: {
-                type: sql.DATETIME,
-                val: startDate
-            },
-            endDate: {
-                type: sql.DATETIME,
-                val: endDate
-            }
-        }
-    }).then(function (results) {
-        res.status(200).send(results);
-        return next();
-    }, function (err) {
-        return next(err);
-    });
+    mongoClient.connect(mongoUrl)
+        .then(function(db) {
+            return db.collection('temps');
+        }).then(function(collection) {
+            return collection.find({ x: { $gte: startDate, $lte: endDate } }).sort({ x: 1 });
+        }).then(function(cursor) {
+            return cursor.toArray();
+        }).then(function(documents) {
+            res.status(200).send(documents);
+            return next();
+        }).catch(function(err) {
+            return next(err);
+        });
 });
 
 app.get(TEMPS_PATH + '/Current', function(req, res, next) {

@@ -15,10 +15,7 @@ var HomeTempUI = React.createClass({
         var hours = this.state.rangeValue;
         console.log('hours: ' + hours);
         startDate.setTime(startDate.getTime() - hours * 3600000);
-        var outData = {};
-        outData['startDate'] = startDate;
-        outData['endDate'] = endDate;
-        fetch('/Temps/DateRange?startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString()).then(function(response) {
+        fetch('/Temps/DateRange?startDate=' + startDate.getTime() + '&endDate=' + endDate.getTime()).then(function(response) {
             return response.json();
         }).then(function(data) {
             var minTemp;
@@ -28,8 +25,6 @@ var HomeTempUI = React.createClass({
             
             console.log('data length: ' + data.length);
             data.forEach(function(value, index) {
-                value['x'] = Number(value['x']);
-                
                 totalTemp += value['y'];
         
                 if (index === 0) {
