@@ -36,6 +36,7 @@ gulp.task('app', function () {
       .pipe(gulpIf('index.js', gulp.dest('dist')))
       .pipe(gulpIf('package.json', gulp.dest('dist')))
       .pipe(gulpIf('mongoServer.json', gulp.dest('dist')))
+      .pipe(gulpIf('currentTempsServer.json', gulp.dest('dist')))
 });
 
 gulp.task('clean:dist', function() {
