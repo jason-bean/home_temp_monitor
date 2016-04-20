@@ -1,4 +1,5 @@
 mongoServer.json
+currentTempsServer.json
 dist
 node_modules
 public/bower_components

@@ -6,6 +6,7 @@ var mongoClient = require('mongodb').MongoClient;
 var request = require('request');
 
 var mongoUrl;
+var currentTempUrl;
 
 fs.readFile('mongoServer.json', 'utf8', function (err, data) {
     if (err) {
@@ -15,6 +16,16 @@ fs.readFile('mongoServer.json', 'utf8', function (err, data) {
     var mongoServer = JSON.parse(data);
     mongoUrl = 'mongodb://' + mongoServer.host + ':' + mongoServer.port + '/' + mongoServer.db;
     console.log('Mongo URL: \'' + mongoUrl + '\'');
+});
+
+fs.readFile('currentTempsServer.json', 'utf8', function(err, data) {
+    if (err) {
+        return console.error(err);
+    }
+    
+    var currentTempServer = JSON.parse(data);
+    currentTempUrl = currentTempServer.prefix + '://' + currentTempServer.host + ':' + currentTempServer.port + currentTempServer.path;
+    console.log('Current Temp URL: ' + currentTempUrl);
 });
 
 var port =  '8080';
@@ -57,7 +68,7 @@ app.get(TEMPS_PATH + '/DateRange', function(req, res, next) {
 app.get(TEMPS_PATH + '/Current', function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     
-    request.get('http://airpi.bean.local/temps/current', function (err, resp, body) {
+    request.get(currentTempUrl, function (err, resp, body) {
         if (!err && res.statusCode === 200) {
             res.status(200).send(JSON.parse(body));
             return next();
