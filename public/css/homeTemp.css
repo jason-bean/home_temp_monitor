@@ -11,6 +11,11 @@ body {
     margin: 0px;
 }
 
+#header {
+    text-align: center;
+    align-content: center;
+}
+
 #content {
     padding: 10px;
 }
@@ -18,6 +23,11 @@ body {
 #pageTitle {
     font-weight: bold;
     font-size: 20px;
+}
+
+select.form-control {
+    max-width: 300px;
+    display: inline;
 }
 
 .currentTemps {

@@ -71,7 +71,7 @@ var HomeTempUI = React.createClass({
     render: function() {
         return (
             <div className="homeTempUI">
-                <div style={{textAlign: 'center'}} className="row">
+                <div id="header" className="row">
                     <p id="pageTitle" className="col-sm-12 col-md-12">Bean House Temperature Log</p>
                     <CurrentTemps currentTemps={this.state.currentTemps} />
                     <TempRangeForm onRangeChange={this.handleRangeChange} rangeValue={this.state.rangeValue} />
@@ -103,7 +103,7 @@ var TempRangeForm = React.createClass({
     render: function() {
         return (
             <form>
-                <select id="lstDataRange" className="lstDataRange" onChange={this.props.onRangeChange} data-icon="false" value={this.props.rangeValue}>
+                <select id="lstDataRange" className="form-control" onChange={this.props.onRangeChange} data-icon="false" value={this.props.rangeValue}>
                     <option value="24">Last 24 Hours</option>
                     <option value="48">Last 48 Hours</option>
                     <option value="168">Last Week</option>
