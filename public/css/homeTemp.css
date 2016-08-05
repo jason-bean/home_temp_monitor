@@ -11,22 +11,23 @@ body {
     margin: 0px;
 }
 
+.center-block {
+    float: none !important;
+}
+
 #header {
     text-align: center;
     align-content: center;
 }
 
-#content {
-    padding: 10px;
-}
-
 #pageTitle {
     font-weight: bold;
     font-size: 20px;
+    margin-top: 15px;
 }
 
 select.form-control {
-    max-width: 300px;
+    max-width: 329px;
     display: inline;
 }
 
@@ -44,6 +45,10 @@ select.form-control {
 
 #chart_div {
     box-shadow: 1px 1px 5px 1px rgb(192, 192, 192);
+}
+
+.canvasjs-chart-credit {
+   display: none;
 }
 
 #statsArea {
@@ -70,13 +75,15 @@ td {
 
 #tblUpdated {
     width: auto;
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-} 
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
 
-#lblUpdated {
+#tblUpdated td {
     text-align: left;
+}
+
+#tblUpdated td:first-child {
     width: 80px;
 }
 

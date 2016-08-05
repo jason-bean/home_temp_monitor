@@ -50,17 +50,72 @@ app.get(TEMPS_PATH + '/DateRange', function(req, res, next) {
     var endDate = Number(req.query.endDate);
     console.log(new Date(endDate));
     
+    var db;
+    
     mongoClient.connect(mongoUrl)
-        .then(function(db) {
+        .then(function(_db) {
+            db = _db;
             return db.collection('temps');
-        }).then(function(collection) {
-            return collection.find({ x: { $gte: startDate, $lte: endDate } }).sort({ x: 1 });
-        }).then(function(cursor) {
+        })
+        .then(function(collection) {
+            return collection.aggregate([
+                        { $match: { x: { $gte: startDate, $lte: endDate } } },
+                        { $sort: { x: 1 } },
+                        { $group: {
+                            _id: null,
+                            temps: { $push: { _id: '$_id', x: '$x', y: '$y' }},
+                            avg_temp: { $avg: '$y' },
+                            min_temp: { $min: '$y' },
+                            max_temp: { $max: '$y' }
+                        } },
+                        { $project: {
+                            temps: 1,
+                            avg_temp: 1,
+                            min_temp: {
+                                $setDifference: [
+                                    { $map: {
+                                        input: '$temps',
+                                        as: 'temp',
+                                        in: {
+                                            $cond: [
+                                                { $eq: [ '$min_temp', '$$temp.y'] },
+                                                '$$temp',
+                                                false
+                                            ]
+                                        }
+                                    }},
+                                    [false]
+                                ]
+                            },
+                            max_temp: {
+                                $setDifference: [
+                                    { $map: {
+                                        input: '$temps',
+                                        as: 'temp',
+                                        in: {
+                                            $cond: [
+                                                { $eq: [ '$max_temp', '$$temp.y'] },
+                                                '$$temp',
+                                                false
+                                            ]
+                                        }
+                                    }},
+                                    [false]
+                                ]
+                            }
+                        }}
+                    ]);
+        })
+        .then(function(cursor) {
             return cursor.toArray();
-        }).then(function(documents) {
-            res.status(200).send(documents);
+        })
+        .then(function(documents) {
+            res.status(200).send(documents[0]);
+            if (db) db.close();
             return next();
-        }).catch(function(err) {
+        })
+        .catch(function(err) {
+            if (db) db.close();
             return next(err);
         });
 });
